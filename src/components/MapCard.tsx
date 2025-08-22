@@ -1,3 +1,4 @@
+import ChatGptAsk from "./ChatGptAsk";
 // ...existing code...
 import React from "react";
 import MapPin from "./MapPin";
@@ -54,6 +55,7 @@ const MapCard: React.FC<MapCardProps> = ({ place, onGenerateNew }) => {
       >
         Generate New Map
       </button>
+      <ChatGptAsk region={place.name} />
     </div>
   );
 };
