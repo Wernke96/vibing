@@ -1,8 +1,44 @@
 {
-  "servers": {
-    "github-mcp": {
-      "type": "http",
-      "url": "https://api.githubcopilot.com/mcp"
+    "inputs": [
+        {
+            "id": "github_pat",
+            "description": "GitHub personal access token",
+            "type": "promptString",
+            "password": true
+        }
+    ],
+    "servers": {
+        "mcp-server-time": {
+            "command": "python3",
+            "args": [
+                "-m",
+                "mcp_server_time",
+                "--local-timezone=America/Los_Angeles"
+            ],
+            "env": {}
+        },
+        "atlassian-mcp": {
+            "command": "npx",
+            "args": [
+                "-y",
+                "mcp-remote",
+                "https://mcp.atlassian.com/v1/sse"
+            ]
+        },
+        "github": {
+            "type": "stdio",
+            "command": "docker",
+            "args": [
+                "run",
+                "-i",
+                "--rm",
+                "-e",
+                "GITHUB_PERSONAL_ACCESS_TOKEN",
+                "ghcr.io/github/github-mcp-server"
+            ],
+            "env": {
+                "GITHUB_PERSONAL_ACCESS_TOKEN": "${input:github_pat}"
+            }
+        }
     }
-  }
 }
